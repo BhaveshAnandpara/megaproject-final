@@ -1,0 +1,32 @@
+
+.NavContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 94%;
+    position: fixed;
+    z-index: 10;
+    margin-top: -0.7%;
+    background-color: white;
+    padding: 0px 36px;
+    align-content: stretch;
+}
+.NavElements{
+    display: flex;
+    /* margin-left: 20%; */
+}
+.NavElements>a{
+    margin: 0px 36px;
+}
+.ProfileImg{
+    /* margin-left: 41%; */
+
+}
+.NavElements>a{
+    text-decoration: none;
+    color: black;
+    font-family: 'Poppins';
+    font-weight: 500;
+}
+

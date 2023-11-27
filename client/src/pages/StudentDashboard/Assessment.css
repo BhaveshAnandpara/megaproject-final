@@ -1,0 +1,22 @@
+.assess-container{
+
+    width: 98vw;
+    height: 98vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.asess-btn{
+
+    background-color: blueviolet;
+    padding: 24px 36px;
+    font-size: 24px;
+    color: white;
+    font-weight: 500;
+    border-radius: 100px;
+    outline: none;
+    font-family: "Poppins";
+    cursor: pointer;
+}
