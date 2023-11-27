@@ -3,6 +3,7 @@ import MicRecorder from "mic-recorder-to-mp3";
 import FormData from "form-data";
 import "./Assessment.css";
 import Webcam from "react-webcam";
+import { useNavigate } from "react-router-dom";
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -16,13 +17,8 @@ export default function Assessment() {
   const [started, setStarted] = useState(false);
   const [count, setCount] = useState(0);
 
-  const que = [
-    "1  How are you ?",
-    "2  How are you ?",
-    "3 How are you ?",
-    "4  How are you ?",
-    "5  How are you ?",
-  ];
+  const que = ["Tell me a bit about yourself ?" , "What is the problem you are suffering from currently ?" , "How would you describe your sleep schedule?" ];
+  const navigate = useNavigate()
 
   const start = () => {
     if (state.isBlocked) {
@@ -56,8 +52,12 @@ export default function Assessment() {
           redirect: "follow",
         };
 
+        if (count !== que.length - 1) setCount(count + 1);
+        else navigate('/student/home')
+
         fetch("http://localhost:8000/predict", requestOptions)
-          .then(setCount(count + 1))
+          .then(() => {
+          })
           .catch((error) => console.log("error", error));
       })
       .catch((e) => console.log(e));
