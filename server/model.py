@@ -17,7 +17,7 @@ loaded_vectorizer = joblib.load('fitted_vectorizer.pkl')
 # Initializing a CountVectorizer to convert text into numerical features, limiting to 100 features
 
 
-def predict(filename , db , que):
+def predict(filename , db , que , email):
 
     audio = AudioSegment.from_file(filename)
     audio.export('output.wav', format='wav')
@@ -45,7 +45,21 @@ def predict(filename , db , que):
     }
     
 
-    _id = str(uuid4())  # Generates random ID for new user
+    queArr = [
+        "Tell me a bit about yourself ?",
+        "What is the problem you are suffering from currently ?",
+        "How would you describe your sleep schedule?",
+    ]
+
+    for i in range(len(queArr)):
+        if( queArr[i] == que ):
+            no = i
+            break
+
+    print(no)
+
+    # _id = str(uuid4())  # Generates random ID for new user
+    _id = str(no) + '-' + email
 
     db.collection('users').document(_id).set({ "text" :  input_text ,  "prediction" : label_mapping[prediction[0]] , "que" : que })
     return label_mapping[prediction[0]]

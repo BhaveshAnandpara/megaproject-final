@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 export default function Assessment() {
-
-
   const [state, setState] = useState({
     isRecording: false,
     blobURL: "",
@@ -24,9 +22,12 @@ export default function Assessment() {
     "What is the problem you are suffering from currently ?",
     "How would you describe your sleep schedule?",
   ];
+
+  const auth = JSON.parse(localStorage.getItem("auth"));
+
   const navigate = useNavigate();
 
-  if( localStorage.getItem('auth') === null ) navigate('/login')
+  if (localStorage.getItem("auth") === null) navigate("/login");
 
   const start = () => {
     if (state.isBlocked) {
@@ -51,9 +52,13 @@ export default function Assessment() {
 
         console.log(file);
 
+        setCount(count + 1);
+        start()
+
         var formdata = new FormData();
         formdata.append("audio_file", file);
         formdata.append("que", que[count]);
+        formdata.append("email", auth.email);
 
         var requestOptions = {
           method: "POST",
@@ -63,8 +68,7 @@ export default function Assessment() {
 
         fetch("http://localhost:8000/predict", requestOptions)
           .then(() => {
-            if (count !== que.length - 1) setCount(count + 1);
-            else navigate("/student/home");
+            if (count == que.length - 1) navigate("/student/home");
           })
           .catch((error) => alert("Error Occured"));
       })
