@@ -3,8 +3,20 @@ from model import predict
 from flask_cors import CORS
 from pydub import AudioSegment
 AudioSegment.ffmpeg = "C:/Users/bhave/Downloads/ffmpeg-6.1/ffmpeg-6.1"
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+
 
 app = Flask(__name__)
+
+cred = credentials.Certificate("./serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+
 CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})  # Allow only requests from http://localhost:3000
 
 @app.route('/', methods=['GET'])
@@ -33,7 +45,7 @@ def get_prediction():
         audio.export(wav_file_path, format='wav')
         file_path = wav_file_path  # Update the file path to the converted WAV file
 
-    prediction = predict( file_path )
+    prediction = predict( file_path  , db )
 
     # Add CORS headers to the response
     response = jsonify({'prediction': prediction})
