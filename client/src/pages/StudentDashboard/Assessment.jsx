@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 export default function Assessment() {
+
+
   const [state, setState] = useState({
     isRecording: false,
     blobURL: "",
@@ -23,6 +25,8 @@ export default function Assessment() {
     "How would you describe your sleep schedule?",
   ];
   const navigate = useNavigate();
+
+  if( localStorage.getItem('auth') === null ) navigate('/login')
 
   const start = () => {
     if (state.isBlocked) {
