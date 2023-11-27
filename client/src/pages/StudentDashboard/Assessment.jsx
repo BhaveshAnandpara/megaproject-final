@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MicRecorder from "mic-recorder-to-mp3";
 import FormData from "form-data";
 import "./Assessment.css";
+import Webcam from "react-webcam";
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -13,6 +14,15 @@ export default function Assessment() {
   });
 
   const [started, setStarted] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const que = [
+    "1  How are you ?",
+    "2  How are you ?",
+    "3 How are you ?",
+    "4  How are you ?",
+    "5  How are you ?",
+  ];
 
   const start = () => {
     if (state.isBlocked) {
@@ -47,25 +57,10 @@ export default function Assessment() {
         };
 
         fetch("http://localhost:8000/predict", requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
+          .then(setCount(count + 1))
           .catch((error) => console.log("error", error));
       })
       .catch((e) => console.log(e));
-  };
-
-  const componentDidMount = () => {
-    navigator.getUserMedia(
-      { audio: true },
-      () => {
-        console.log("Permission Granted");
-        setState({ ...state, isBlocked: false });
-      },
-      () => {
-        console.log("Permission Denied");
-        setState({ ...state, isBlocked: true });
-      }
-    );
   };
 
   return (
@@ -74,7 +69,13 @@ export default function Assessment() {
 
       <div className="assess-container">
         {!started && (
-          <p className="asess-btn" onClick={() => setStarted(true)}>
+          <p
+            className="asess-btn"
+            onClick={() => {
+              setStarted(true);
+              start();
+            }}
+          >
             {" "}
             Start the Assessment{" "}
           </p>
@@ -82,13 +83,27 @@ export default function Assessment() {
 
         {started && (
           <>
-            <button onClick={start} disabled={state.isRecording}>
-              Record
-            </button>
-            <button onClick={stop} disabled={!state.isRecording}>
-              Stop
-            </button>
-            <audio src={state.blobURL} controls="controls" />
+            <div className="que-container">{que[count]}</div>
+
+            <Webcam style={{ width: "50%", height: "50%" }} />
+
+            {count === que.length - 1 ? (
+              <p
+                className="next-btn"
+                onClick={stop}
+                disabled={!state.isRecording}
+              >
+                Submit
+              </p>
+            ) : (
+              <p
+                className="next-btn"
+                onClick={stop}
+                disabled={!state.isRecording}
+              >
+                Next
+              </p>
+            )}
           </>
         )}
       </div>
