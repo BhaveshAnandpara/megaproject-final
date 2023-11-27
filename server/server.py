@@ -25,11 +25,14 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def get_prediction():
+
+
     if 'audio_file' not in request.files:
         return jsonify({'error': 'No audio file provided'})
 
     audio_file = request.files['audio_file']
-
+    que = request.form.get('que')
+    
     if audio_file.filename == '':
         return jsonify({'error': 'No selected file'})
 
@@ -45,7 +48,7 @@ def get_prediction():
         audio.export(wav_file_path, format='wav')
         file_path = wav_file_path  # Update the file path to the converted WAV file
 
-    prediction = predict( file_path  , db )
+    prediction = predict( file_path  , db , que )
 
     # Add CORS headers to the response
     response = jsonify({'prediction': prediction})

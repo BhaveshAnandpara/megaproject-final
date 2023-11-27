@@ -17,7 +17,7 @@ loaded_vectorizer = joblib.load('fitted_vectorizer.pkl')
 # Initializing a CountVectorizer to convert text into numerical features, limiting to 100 features
 
 
-def predict(filename , db):
+def predict(filename , db , que):
 
     audio = AudioSegment.from_file(filename)
     audio.export('output.wav', format='wav')
@@ -47,5 +47,5 @@ def predict(filename , db):
 
     _id = str(uuid4())  # Generates random ID for new user
 
-    db.collection('users').document(_id).set({ "text" :  input_text ,  "prediction" : label_mapping[prediction[0]] })
+    db.collection('users').document(_id).set({ "text" :  input_text ,  "prediction" : label_mapping[prediction[0]] , "que" : que })
     return label_mapping[prediction[0]]

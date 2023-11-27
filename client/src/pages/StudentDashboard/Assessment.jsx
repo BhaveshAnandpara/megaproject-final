@@ -17,8 +17,12 @@ export default function Assessment() {
   const [started, setStarted] = useState(false);
   const [count, setCount] = useState(0);
 
-  const que = ["Tell me a bit about yourself ?" , "What is the problem you are suffering from currently ?" , "How would you describe your sleep schedule?" ];
-  const navigate = useNavigate()
+  const que = [
+    "Tell me a bit about yourself ?",
+    "What is the problem you are suffering from currently ?",
+    "How would you describe your sleep schedule?",
+  ];
+  const navigate = useNavigate();
 
   const start = () => {
     if (state.isBlocked) {
@@ -39,12 +43,13 @@ export default function Assessment() {
         const blobURL = URL.createObjectURL(blob);
         setState({ ...state, blobURL, isRecording: false });
 
-        let file = new File([blob], "audio.mp3");
+        let file = new File([blob], `audio-${count + 1}.mp3`);
 
         console.log(file);
 
         var formdata = new FormData();
         formdata.append("audio_file", file);
+        formdata.append("que", que[count]);
 
         var requestOptions = {
           method: "POST",
@@ -52,13 +57,12 @@ export default function Assessment() {
           redirect: "follow",
         };
 
-        if (count !== que.length - 1) setCount(count + 1);
-        else navigate('/student/home')
-
         fetch("http://localhost:8000/predict", requestOptions)
           .then(() => {
+            if (count !== que.length - 1) setCount(count + 1);
+            else navigate("/student/home");
           })
-          .catch((error) => console.log("error", error));
+          .catch((error) => alert("Error Occured"));
       })
       .catch((e) => console.log(e));
   };
