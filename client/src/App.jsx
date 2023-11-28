@@ -16,6 +16,7 @@ export default function App() {
 
           {/* Student Dashboard */}
 
+          <Route path='/' element={ <Home/> } />
           <Route path='/student/' element={ <Home/> } />
           <Route path='/student/home' element={ <Home/> } />
           <Route path='/student/assesment' element={ <Assessment/> } />
