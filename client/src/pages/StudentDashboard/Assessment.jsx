@@ -23,13 +23,13 @@ export default function Assessment() {
     "How would you describe your sleep schedule?",
   ];
 
+  const navigate = useNavigate()
   const auth = JSON.parse(localStorage.getItem("auth"));
 
-  const navigate = useNavigate();
-
-  if (localStorage.getItem("auth") === null) navigate("/login");
-
   const start = () => {
+
+    if( auth === null ) navigate('/login')
+
     if (state.isBlocked) {
       console.log("Permission Denied");
     } else {
