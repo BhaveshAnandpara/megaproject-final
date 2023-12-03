@@ -41,8 +41,6 @@ def get_emotion_prediction():
         return jsonify({'error': 'No image file provided'})
     
     snapshot = request.files['image']
-    que = request.form.get('que')
-    count = request.form.get('count')
     email = request.form.get('email')
     
     if snapshot.filename == '':
@@ -79,7 +77,7 @@ def get_emotion_prediction():
     if( labels == [] ):
         labels.append({'label': 'No Faces', 'position': (30, 80)})
 
-    saveEmotionData(labels , snapshot.filename , que, count , email , db)
+    saveEmotionData(labels , snapshot.filename , email , db)
     os.remove(file_path)
     print(labels)
 

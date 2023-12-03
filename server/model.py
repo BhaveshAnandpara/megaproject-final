@@ -17,9 +17,9 @@ loaded_vectorizer = joblib.load('fitted_vectorizer.pkl')
 
 
 
-def saveEmotionData( labels , filename , que , count , email , db ):
-    _id = str(count) + '-' + email + '-' + filename 
-    db.collection('emotion').document( _id ).set({ "emotion" :  labels[0]['label'] , "que" : que })
+def saveEmotionData( labels , filename ,  email , db ):
+    _id = email + '-' + filename 
+    db.collection('emotion').document( _id ).set({ "emotion" :  labels[0]['label'] })
 
 
 # Initializing a CountVectorizer to convert text into numerical features, limiting to 100 features
