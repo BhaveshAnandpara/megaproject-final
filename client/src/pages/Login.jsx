@@ -24,27 +24,32 @@ export default function Login() {
 
   return (
     <>
-      <div className="" style={{ opacity: "1" }}>
-        <div className="">
-          <GoogleOAuthProvider
-            clientId={`983317266916-01juk5ugf6rfg0fop30213s6d0k3atun.apps.googleusercontent.com`}
-          >
-            <GoogleLogin
-              render={(renderProps) => (
-                <button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  This is my custom Google button
-                </button>
-              )}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy="single_host_origin"
-            />
-          </GoogleOAuthProvider>
+
+      <section style={{ display : 'flex' , justifyContent : 'center' , alignItems : 'center' , width : '100vw' ,height : '100vh' }} >
+
+        <div className="" style={{ opacity: "1" }}>
+          <div className="">
+            <GoogleOAuthProvider
+              clientId={`983317266916-01juk5ugf6rfg0fop30213s6d0k3atun.apps.googleusercontent.com`}
+            >
+              <GoogleLogin
+                render={(renderProps) => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    This is my custom Google button
+                  </button>
+                )}
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy="single_host_origin"
+              />
+            </GoogleOAuthProvider>
+          </div>
         </div>
-      </div>
+
+      </section>
     </>
   );
 }
