@@ -96,7 +96,7 @@ def get_emotion_prediction():
         return jsonify({'error': 'No selected file'})
 
     # Save the file
-    file_path = os.path.join(uploads_folder, snapshot.filename)
+    file_path = os.path.join(snapshot_folder, snapshot.filename)
     snapshot.save(file_path)
 
     # Read the saved file for image processing
