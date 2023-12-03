@@ -11,6 +11,7 @@ import Story from './pages/Game/Story'
 import StartGame from './pages/Game/StartGame'
 import Que1 from './pages/Game/Que1'
 import Done from './pages/Game/Done'
+import Recommendation from './pages/Game/Recommendation'
 export default function App() {
   return (
     
@@ -37,6 +38,8 @@ export default function App() {
 
           <Route path='/student/game/end' element={ <StartGame/> } />
           <Route path='/student/game/done' element={ <Done/> } />
+
+          <Route path='/student/recommendation' element={ <Recommendation/> } />
 
           <Route path='/login' element={ <Login/> } />
 

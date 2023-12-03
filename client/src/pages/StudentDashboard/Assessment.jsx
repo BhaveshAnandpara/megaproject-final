@@ -31,7 +31,6 @@ export default function Assessment() {
   const auth = JSON.parse(localStorage.getItem("auth"));
 
   const start = () => {
-
     if (auth === null) navigate("/login");
 
     if (state.isBlocked) {
@@ -115,9 +114,7 @@ export default function Assessment() {
       .then((data) => {
         // console.log(data);
       })
-      .catch((error) => 
-      console.log("Error Occurred")
-      );
+      .catch((error) => console.log("Error Occurred"));
   };
 
   const takeSnapshots = () => {
@@ -127,7 +124,6 @@ export default function Assessment() {
   };
 
   const stopRecordingAndNavigate = () => {
-
     clearInterval(intervalref.current);
 
     Mp3Recorder.stop()
@@ -136,11 +132,10 @@ export default function Assessment() {
         const blobURL = URL.createObjectURL(blob);
         setState({ ...state, blobURL, isRecording: false });
 
-        navigate("/student/home"); // Navigate to home page after stopping recording
+        navigate("/student/recommendation"); // Navigate to home page after stopping recording
       })
       .catch((e) => console.log(e));
   };
-
 
   return (
     <div className="App">

@@ -37,7 +37,7 @@ export default function Done() {
 
                     </div>
 
-                    <button className="game-btn" onClick={() => navigate('/student/recommendation')} >Next</button>
+                    <button className="game-btn" onClick={() => navigate('/student/assesment')} >Next</button>
                 </div>
             </section>
         </>
