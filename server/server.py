@@ -13,16 +13,24 @@ import cv2
 import numpy as np
 import os
 from collections import Counter
+from firebase_admin import storage
 
 
 app = Flask(__name__)
 
 cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
+bucket = storage.bucket('login-auth-a4895.appspot.com')
 
 db = firestore.client()
 
-CORS(app, resources={r"/predict": {"origins": ["http://localhost:3000", "https://megaproject-final.vercel.app"]}})
+root_directory = os.path.dirname(os.path.abspath(__file__))
+snapshot_folder = os.path.join(root_directory, 'snapshot')
+uploads_folder = os.path.join(root_directory, 'uploads')
+os.makedirs(snapshot_folder, exist_ok=True)
+os.makedirs(uploads_folder, exist_ok=True)
+
+CORS(app, resources={r"/predict": {"origins": "https://megaproject-final.vercel.app"}})
 
 
 face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -71,7 +79,7 @@ def emotion():
     # Add CORS headers to the response
     response = jsonify(result)
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
+    response.headers.add('Access-Control-Allow-Origin',  'https://megaproject-final.vercel.app')
     return response
 
 
@@ -125,13 +133,12 @@ def get_emotion_prediction():
     # Add CORS headers to the response
     response = jsonify({'emotion': labels[0]['label']})
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
+    response.headers.add('Access-Control-Allow-Origin',  'https://megaproject-final.vercel.app')
     return response
 
 
 @app.route('/predict', methods=['POST'])
 def get_prediction():
-
 
     if 'audio_file' not in request.files:
         return jsonify({'error': 'No audio file provided'})
@@ -139,13 +146,24 @@ def get_prediction():
     audio_file = request.files['audio_file']
     que = request.form.get('que')
     email = request.form.get('email')
-    
+
     if audio_file.filename == '':
         return jsonify({'error': 'No selected file'})
 
     # Example: Save the file to a folder named 'uploads'
-    audio_file.save('uploads/' + audio_file.filename)
-    file_path = "uploads/" + audio_file.filename
+
+    # audio_file.save('uploads/' + audio_file.filename)
+    # file_path = "uploads/" + audio_file.filename
+
+    file_path = os.path.join(uploads_folder, audio_file.filename)
+    audio_file.save(file_path)
+
+    # destination_blob_name = 'images/audio_file.filename'
+
+    # Upload the local file to Firebase Storage
+    # blob = bucket.blob(destination_blob_name)
+    # blob.upload_from_filename(file_path)
+
 
     # Check if the file is an MP3 and convert it to WAV
     if audio_file.filename.lower().endswith('.mp3'):
@@ -159,8 +177,9 @@ def get_prediction():
     # Add CORS headers to the response
     response = jsonify({'prediction': prediction})
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
+    response.headers.add('Access-Control-Allow-Origin', 'https://megaproject-final.vercel.app')
     return response
+
 
 if __name__ == '__main__':
     app.run()
