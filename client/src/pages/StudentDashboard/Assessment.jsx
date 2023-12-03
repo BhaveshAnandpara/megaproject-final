@@ -69,7 +69,7 @@ export default function Assessment() {
           redirect: "follow",
         };
 
-        fetch("http://localhost:8000/predict", requestOptions)
+        fetch("https://ummeed-backend.onrender.com/predict", requestOptions)
           .then(() => {
             if (count == que.length - 1) navigate("/student/home");
           })
@@ -109,7 +109,7 @@ export default function Assessment() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:8000/predictEmotion", requestOptions)
+    fetch("https://ummeed-backend.onrender.com/predictEmotion", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         // console.log(data);

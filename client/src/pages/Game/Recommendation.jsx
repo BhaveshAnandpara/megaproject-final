@@ -17,7 +17,7 @@ export default function Recommendation() {
       method: "GET",
     };
 
-    fetch("http://localhost:8000/emotionData", requestOptions)
+    fetch("https://ummeed-backend.onrender.com/emotionData", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
