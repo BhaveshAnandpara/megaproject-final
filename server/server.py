@@ -22,7 +22,7 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
-CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})  # Allow only requests from http://localhost:3000
+CORS(app, resources={r"/predict": {"origins": ["http://localhost:3000", "https://megaproject-final.vercel.app"]}})
 
 
 face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -71,7 +71,7 @@ def emotion():
     # Add CORS headers to the response
     response = jsonify(result)
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
     return response
 
 
@@ -125,7 +125,7 @@ def get_emotion_prediction():
     # Add CORS headers to the response
     response = jsonify({'emotion': labels[0]['label']})
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
     return response
 
 
@@ -159,7 +159,7 @@ def get_prediction():
     # Add CORS headers to the response
     response = jsonify({'prediction': prediction})
     # Add CORS headers to the response 
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000' , 'https://megaproject-final.vercel.app'])
     return response
 
 if __name__ == '__main__':
