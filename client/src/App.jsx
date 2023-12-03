@@ -9,6 +9,8 @@ import Game from './pages/Game/Game'
 import Profile from './pages/Game/Profile'
 import Story from './pages/Game/Story'
 import StartGame from './pages/Game/StartGame'
+import Que1 from './pages/Game/Que1'
+import Done from './pages/Game/Done'
 export default function App() {
   return (
     
@@ -30,6 +32,11 @@ export default function App() {
           <Route path='/student/game/profile' element={ <Profile/> } />
           <Route path='/student/game/story' element={ <Story/> } />
           <Route path='/student/game/start' element={ <StartGame/> } />
+
+          <Route path='/student/game/Q1' element={ <Que1/> } />
+
+          <Route path='/student/game/end' element={ <StartGame/> } />
+          <Route path='/student/game/done' element={ <Done/> } />
 
           <Route path='/login' element={ <Login/> } />
 
