@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from model import predict
+from model import predict , saveEmotionData
 from flask_cors import CORS
 from pydub import AudioSegment
 AudioSegment.ffmpeg = "C:/Users/bhave/Downloads/ffmpeg-6.1/ffmpeg-6.1"
@@ -41,6 +41,9 @@ def get_emotion_prediction():
         return jsonify({'error': 'No image file provided'})
     
     snapshot = request.files['image']
+    que = request.form.get('que')
+    count = request.form.get('count')
+    email = request.form.get('email')
     
     if snapshot.filename == '':
         return jsonify({'error': 'No selected file'})
@@ -72,17 +75,19 @@ def get_emotion_prediction():
         else:
              labels.append({'label': 'No Faces', 'position': (30, 80)})
 
-    print(labels[0])
+
+    if( labels == [] ):
+        labels.append({'label': 'No Faces', 'position': (30, 80)})
+
+    saveEmotionData(labels , snapshot.filename , que, count , email , db)
+    os.remove(file_path)
+    print(labels)
 
     # Add CORS headers to the response
     response = jsonify({'emotion': labels[0]['label']})
     # Add CORS headers to the response 
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
     return response
-
-
-
-
 
 
 @app.route('/predict', methods=['POST'])

@@ -5,6 +5,7 @@ import speech_recognition as sr
 from pydub import AudioSegment
 import soundfile as sf
 from uuid import uuid4
+import os
 
 # Create a Recognizer instance
 recognizer = sr.Recognizer()
@@ -14,8 +15,14 @@ recognizer = sr.Recognizer()
 loaded_model = joblib.load('xgb_model.pkl')
 loaded_vectorizer = joblib.load('fitted_vectorizer.pkl')
 
-# Initializing a CountVectorizer to convert text into numerical features, limiting to 100 features
 
+
+def saveEmotionData( labels , filename , que , count , email , db ):
+    _id = str(count) + '-' + email + '-' + filename 
+    db.collection('emotion').document( _id ).set({ "emotion" :  labels[0]['label'] , "que" : que })
+
+
+# Initializing a CountVectorizer to convert text into numerical features, limiting to 100 features
 
 def predict(filename , db , que , email):
 
@@ -57,9 +64,10 @@ def predict(filename , db , que , email):
             break
 
     print(no)
+    os.remove(filename)
 
     # _id = str(uuid4())  # Generates random ID for new user
     _id = str(no) + '-' + email
 
-    db.collection('users').document(_id).set({ "text" :  input_text ,  "prediction" : label_mapping[prediction[0]] , "que" : que })
+    db.collection('answers').document(_id).set({ "text" :  input_text ,  "prediction" : label_mapping[prediction[0]] , "que" : que })
     return label_mapping[prediction[0]]
