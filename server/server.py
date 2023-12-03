@@ -7,6 +7,11 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+from keras.models import load_model
+from keras.preprocessing.image import img_to_array
+import cv2
+import numpy as np
+import os
 
 
 app = Flask(__name__)
@@ -18,9 +23,67 @@ db = firestore.client()
 
 CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})  # Allow only requests from http://localhost:3000
 
+
+face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+classifier = load_model('model.h5')
+emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
+
+
 @app.route('/', methods=['GET'])
 def home():
     return "Hello world!"
+
+
+@app.route('/predictEmotion', methods=['POST'])
+def get_emotion_prediction():
+
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image file provided'})
+    
+    snapshot = request.files['image']
+    
+    if snapshot.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    # Save the file
+    file_path = 'snapshots/' + snapshot.filename
+    snapshot.save(file_path)
+
+    # Read the saved file for image processing
+    image = cv2.imread(file_path)
+    
+    labels = []
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    faces = face_classifier.detectMultiScale(gray)
+
+
+    for (x, y, w, h) in faces:
+        roi_gray = gray[y:y + h, x:x + w]
+        roi_gray = cv2.resize(roi_gray, (48, 48), interpolation=cv2.INTER_AREA)
+
+        if np.sum([roi_gray]) != 0:
+            roi = roi_gray.astype('float') / 255.0
+            roi = img_to_array(roi)
+            roi = np.expand_dims(roi, axis=0)
+
+            prediction = classifier.predict(roi)[0]
+            label = emotion_labels[prediction.argmax()]
+            labels.append({'label': label, 'position': (x, y)})
+        else:
+             labels.append({'label': 'No Faces', 'position': (30, 80)})
+
+    print(labels[0])
+
+    # Add CORS headers to the response
+    response = jsonify({'emotion': labels[0]['label']})
+    # Add CORS headers to the response 
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    return response
+
+
+
+
+
 
 @app.route('/predict', methods=['POST'])
 def get_prediction():
