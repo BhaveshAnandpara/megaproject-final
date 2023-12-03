@@ -12,6 +12,7 @@ from keras.preprocessing.image import img_to_array
 import cv2
 import numpy as np
 import os
+from collections import Counter
 
 
 app = Flask(__name__)
@@ -32,6 +33,46 @@ emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surpri
 @app.route('/', methods=['GET'])
 def home():
     return "Hello world!"
+
+
+@app.route('/emotionData', methods=['GET'])
+def emotion():
+    data = []
+    users_ref = db.collection('emotion')
+    docs = users_ref.get()
+
+    data = []
+    for doc in docs:
+        data.append(doc.to_dict()['emotion'])  # Convert Firestore document to Python dictionary
+
+    # Count occurrences of each element in the list
+    counts = Counter(data)
+
+    # Create a mapping for the emotion names
+    emotion_mapping = {
+        'Happy': 'Happy',
+        'Angry': 'Angry',
+        'Disgust': 'Disgust',
+        'Fear': 'Fear',
+        'Neutral': 'Neutral',
+        'Sad': 'Sad',
+        'Surprise': 'Surprise'
+    }
+
+    # Define the order of emotions
+    emotion_order = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
+
+    # Create a list of emotions with their counts
+    result = [["Total", str(len(data))]]  # Total count
+    for emotion in emotion_order:
+        count = counts.get(emotion_mapping.get(emotion), 0)
+        result.append([emotion, count])
+
+    # Add CORS headers to the response
+    response = jsonify(result)
+    # Add CORS headers to the response 
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    return response
 
 
 @app.route('/predictEmotion', methods=['POST'])

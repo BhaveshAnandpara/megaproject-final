@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import blog from "../../assets/Game/blogs.png";
 import podcast from "../../assets/Game/podcasts.png";
 
 import card1 from "../../assets/Game/Card1.png";
 import card2 from "../../assets/Game/Card2.png";
 import card3 from "../../assets/Game/Card3.png";
+import { Chart } from "react-google-charts";
 
 export default function Recommendation() {
+
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+
+    const requestOptions = {
+      method: "GET",
+    };
+
+    fetch("http://localhost:8000/emotionData", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setData(data)
+      })
+      .catch((error) => console.log("Error Occurred"));
+
+  }, [])
+
+
+
+  const options = {
+    title: "Emotion Analysis",
+  };
+
   return (
     <>
       <section
@@ -70,6 +96,9 @@ export default function Recommendation() {
                 width: "90%",
               }}
             >
+
+              <p style={{ width : '100%' , textAlign : 'left', fontSize : '16px' , fontWeight : '600' , color : 'rgb(151 141 141)' }} >Assessment 1 Score</p>
+
               <div
                 className="1"
                 style={{
@@ -97,6 +126,27 @@ export default function Recommendation() {
                     : "Disagree"}{" "}
                 </p>
               </div>
+
+              <p style={{ width : '100%' , textAlign : 'left', fontSize : '16px' , fontWeight : '600' , color : 'rgb(151 141 141)' }} >Emotion Ananlysis</p>
+
+              <div style={{ width: '90%', height: '150px', overflow: 'hidden' }} >
+
+                <div style={{ translate: '10% -38%' }} >
+
+                  <Chart
+                    chartType="PieChart"
+                    data={data}
+                    options={options}
+                    width={"100%"}
+                    height={"600px"}
+                  />
+
+                </div>
+
+
+
+              </div>
+
             </div>
           </div>
 
