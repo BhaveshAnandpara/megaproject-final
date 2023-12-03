@@ -31,7 +31,7 @@ export default function Header() {
         <a
           className="NavConnect Connect"
           href=""
-          onClick={() => navigate("/student/assesment")}
+          onClick={() => navigate("/student/game")}
         >
           <p>Test your Mental Health</p>
         </a>
