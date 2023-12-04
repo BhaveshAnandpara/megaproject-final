@@ -1,0 +1,44 @@
+/* CurrentSlotCard.css */
+
+.cards {
+    margin: 1%;
+    padding: 39px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 80px;
+    width: 180px;
+}
+
+.SlotCard {
+    display: flex;
+    flex-direction: row;
+}
+
+.card1 {
+    background-image: url('../InstituteDashboard/ImgOne.png');
+    background-size: contain;
+}
+
+.card2 {
+    background-image: url('../InstituteDashboard/ImgTwo.png');
+    background-size: contain;
+    width: 100px; 
+    /* Use a color for the background */
+}
+
+.card3 {
+    background-image: url('../InstituteDashboard/ImgThree.png');
+    background-size: contain;
+    width: 100px; 
+    /* Use a color for the background */
+}
+
+.card4 {
+    background-image: url('../InstituteDashboard/ImgFourFinal.png');
+    background-size: contain;
+    /* Use a color for the background */
+}
+.cardNos{
+
+    margin: 23%;
+}

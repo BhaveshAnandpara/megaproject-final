@@ -22,8 +22,6 @@ export default function Header() {
              
                 
                     <a className='NavConnect Connect' href='' onClick={() => navigate('/institute/analytics')} ><p>Analytics</p></a>
-               
-                
                     
                 
                 

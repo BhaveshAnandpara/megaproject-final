@@ -12,6 +12,11 @@ import StartGame from './pages/Game/StartGame'
 import Que1 from './pages/Game/Que1'
 import Done from './pages/Game/Done'
 import Recommendation from './pages/Game/Recommendation'
+
+import Pricing from './pages/InstituteDashboard/Pricing'
+import Analytics from './pages/InstituteDashboard/Analytics'
+
+
 export default function App() {
   return (
     
@@ -42,6 +47,11 @@ export default function App() {
           <Route path='/student/recommendation' element={ <Recommendation/> } />
 
           <Route path='/login' element={ <Login/> } />
+
+
+          <Route path='/institute/' element={ <Pricing/> } />
+          <Route path='/institute/pricing' element={ <Pricing/> } />
+          <Route path='/institute/analytics' element={ <Analytics/> } />
 
 
         </Routes>
