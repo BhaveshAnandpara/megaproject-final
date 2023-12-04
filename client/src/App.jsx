@@ -16,6 +16,9 @@ import Recommendation from './pages/Game/Recommendation'
 import Pricing from './pages/InstituteDashboard/Pricing'
 import Analytics from './pages/InstituteDashboard/Analytics'
 
+import Lobby from './pages/ConnectPage/Lobby'
+import RoomPage from './pages/ConnectPage/Room'
+
 
 export default function App() {
   return (
@@ -33,6 +36,9 @@ export default function App() {
           <Route path='/student/home' element={ <Home/> } />
           <Route path='/student/assesment' element={ <Assessment/> } />
           <Route path='/student/BookSlot' element={ <BookSlot/> } />
+
+          <Route path='/student/lobby' element={ <Lobby/> } />
+          <Route exact path='/student/room/:roomId' element={<RoomPage/>}/>
 
           <Route path='/student/game' element={ <Game/> } />
           <Route path='/student/game/profile' element={ <Profile/> } />

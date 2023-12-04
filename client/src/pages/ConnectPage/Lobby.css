@@ -1,0 +1,32 @@
+.ConnectContainer{
+    padding-top: 5%;
+}
+.HeadingLobby{
+    border-radius: 22px;
+    margin-top: 11%;
+    border: 2px solid;
+    padding-left: 17%;
+    padding: 4%;
+    margin: 4%;
+}
+
+.LobbyJoin{
+padding-top: 1%;
+
+}
+.BtnConnect{
+    padding: 0.5%;
+    width: 11%;
+    background-color: black;
+    color: white;
+}
+.BtnConnect:hover {background-color: rgba(8, 177, 239, 0.308);
+color: black;}
+
+.BtnConnect:active {
+  background-color: #000100;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+

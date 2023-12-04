@@ -39,7 +39,7 @@ export default function Header() {
         <a
           className="NavConnect Connect"
           href=""
-          onClick={() => navigate("/student/Connects")}
+          onClick={() => navigate("/student/lobby")}
         >
           <p>Connect</p>
         </a>
