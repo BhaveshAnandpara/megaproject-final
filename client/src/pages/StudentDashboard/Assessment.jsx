@@ -120,7 +120,7 @@ export default function Assessment() {
   const takeSnapshots = () => {
     intervalref.current = setInterval(() => {
       capture(); // Use the provided count value here
-    }, 2000);
+    }, 3000);
   };
 
   const stopRecordingAndNavigate = () => {
