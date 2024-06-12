@@ -55,7 +55,9 @@ export default function Header() {
         <a
           className="NavLogout Logout"
           href=""
-          onClick={() => navigate("/student/Logout")}
+          onClick={() => {
+            localStorage.removeItem("auth")
+          }}
         >
           <p>Logout</p>
         </a>
